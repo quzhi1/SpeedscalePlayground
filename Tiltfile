@@ -66,6 +66,7 @@ k8s_yaml(helm('helm'))
 # Label and port forwarding example applciation
 k8s_resource(
   "hello-world",
+  resource_deps=['speedscale-operator'],
   port_forwards=8090,
   labels="example-application",
 )
