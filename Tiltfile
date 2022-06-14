@@ -17,11 +17,11 @@ helm_remote(
   repo_name='speedscale',
   repo_url='https://speedscale.github.io/operator-helm/',
   namespace="speedscale",
-  version="v0.12.5",
+  version="v1.0.0",
   create_namespace=True,
   set=[
     "apiKey=" + speedscale_api_key, 
-    "clusterName=minikube",
+    "clusterName=minikube-" + os.getenv('USER').replace('@nylas.com', '').replace('.', '-'),
     "namespaceSelector=default",
   ]
 )
@@ -38,6 +38,20 @@ for speedscale_service in speedscale_services:
     speedscale_service,
     labels="speedscale",
   )
+
+# Spin up redis
+helm_remote(
+  'redis',
+  repo_name="bitnami",
+  repo_url='https://charts.bitnami.com/bitnami',
+  values=['helm/values-redis-dev.yaml'],
+)
+
+# Label redis
+k8s_resource(
+  'redis-master',
+  labels="redis",
+)
 
 # Compile example application
 local_resource(
@@ -67,7 +81,7 @@ k8s_yaml(helm('helm'))
 # Label and port forwarding example applciation
 k8s_resource(
   "hello-world",
-  resource_deps=['speedscale-operator'],
-  port_forwards=8090,
+  resource_deps=['speedscale-operator', 'redis-master'],
+  port_forwards='8090:8090',
   labels="example-application",
 )

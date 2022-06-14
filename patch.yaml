@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  annotations:
+    replay.speedscale.com/snapshot-id: "41ca69c7-be08-4456-8831-de7e02d467a7"
+    replay.speedscale.com/testconfig-id: "zhi-hello-world"
+    replay.speedscale.com/cleanup: "inventory"
+    sidecar.speedscale.com/inject: "true"

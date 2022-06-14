@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     sidecar.speedscale.com/inject: "true"
+    sidecar.speedscale.com/tls-out: "true"
   name: hello-world
 spec:
   selector:
