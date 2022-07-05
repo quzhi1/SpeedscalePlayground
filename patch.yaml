@@ -6,4 +6,5 @@ metadata:
     replay.speedscale.com/snapshot-id: "41ca69c7-be08-4456-8831-de7e02d467a7"
     replay.speedscale.com/testconfig-id: "zhi-hello-world"
     replay.speedscale.com/cleanup: "inventory"
+    replay.speedscale.com/mode: "generator-only"
     sidecar.speedscale.com/inject: "true"

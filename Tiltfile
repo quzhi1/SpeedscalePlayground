@@ -17,7 +17,7 @@ helm_remote(
   repo_name='speedscale',
   repo_url='https://speedscale.github.io/operator-helm/',
   namespace="speedscale",
-  version="v1.0.0",
+  version="v1.0.9",
   create_namespace=True,
   set=[
     "apiKey=" + speedscale_api_key, 
@@ -30,7 +30,6 @@ helm_remote(
 speedscale_services = [
   'speedscale-operator-pre-install',
   'speedscale-operator',
-  'speedscale-operator-post-delete',
 ]
 
 for speedscale_service in speedscale_services:
