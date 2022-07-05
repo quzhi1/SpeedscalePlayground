@@ -4,6 +4,7 @@ metadata:
   annotations:
     sidecar.speedscale.com/inject: "true"
     sidecar.speedscale.com/tls-out: "true"
+    replay.speedscale.com/mode: "generator-only"
   name: hello-world
 spec:
   selector:
