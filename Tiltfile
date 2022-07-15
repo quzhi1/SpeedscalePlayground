@@ -2,6 +2,7 @@
 
 load('ext://restart_process', 'docker_build_with_restart')
 load('ext://helm_remote', 'helm_remote')
+load('ext://helm_resource', 'helm_resource', 'helm_repo')
 compile_opt = 'GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 '
 
 # Get Speedscale API key
@@ -12,31 +13,27 @@ if not speedscale_api_key:
   print('------------------------------------------------------------')
 
 # Install speedscale operator
-helm_remote(
+helm_repo('speedscale', 'https://speedscale.github.io/operator-helm/')
+helm_resource(
   'speedscale-operator',
-  repo_name='speedscale',
-  repo_url='https://speedscale.github.io/operator-helm/',
+  'speedscale/speedscale-operator',
   namespace="speedscale",
-  version="v1.0.13",
-  create_namespace=True,
-  set=[
+  flags=[
+    "--create-namespace",
+    "--set",
     "apiKey=" + speedscale_api_key, 
+    "--set",
     "clusterName=minikube-" + os.getenv('USER').replace('@nylas.com', '').replace('.', '-'),
+    "--set",
     "namespaceSelector=default",
   ]
 )
 
 # Label speedscale operator services
-speedscale_services = [
-  'speedscale-operator-pre-install',
+k8s_resource(
   'speedscale-operator',
-]
-
-for speedscale_service in speedscale_services:
-  k8s_resource(
-    speedscale_service,
-    labels="speedscale",
-  )
+  labels="speedscale",
+)
 
 # Spin up redis
 helm_remote(
