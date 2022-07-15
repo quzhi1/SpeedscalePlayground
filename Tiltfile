@@ -17,7 +17,7 @@ helm_remote(
   repo_name='speedscale',
   repo_url='https://speedscale.github.io/operator-helm/',
   namespace="speedscale",
-  version="v1.0.9",
+  version="v1.0.13",
   create_namespace=True,
   set=[
     "apiKey=" + speedscale_api_key, 
