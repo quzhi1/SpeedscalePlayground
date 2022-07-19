@@ -75,8 +75,10 @@ func postmanGet(c *fiber.Ctx) error {
 }
 
 func random(c *fiber.Ctx) error {
+	timestamp := time.Now().Unix()
+	rand.Seed(time.Now().UnixMilli())
 	return c.JSON(randomObj{
-		Timestamp: time.Now().Unix(),
+		Timestamp: timestamp,
 		RandomNum: rand.Int63(),
 	})
 }
